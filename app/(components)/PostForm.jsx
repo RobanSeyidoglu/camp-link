@@ -2,7 +2,8 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const PostForm = () => {
+const PostForm = ({ post }) => {
+  const EDITMODE = post._id === "new" ? false : true;
   const router = useRouter();
 
   const startingPostData = {
@@ -12,7 +13,13 @@ const PostForm = () => {
     status: "not started",
     category: "Government Emails",
   };
-
+  if (EDITMODE) {
+    startingPostData["title"] = post.title;
+    startingPostData["description"] = post.description;
+    startingPostData["priority"] = post.priority;
+    startingPostData["status"] = post.status;
+    startingPostData["category"] = post.category;
+  }
   const [formData, setFormData] = useState(startingPostData);
 
   function handleChange(e) {
@@ -29,11 +36,11 @@ const PostForm = () => {
     try {
       const res = await fetch("/api/Posts", {
         method: "POST",
-
-        "Content-Type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ formData }),
       });
-
       if (!res.ok) {
         const errorData = await res.json();
         console.error("Server error:", errorData);
@@ -55,7 +62,9 @@ const PostForm = () => {
         method="post"
         onSubmit={handleSubmit}
       >
-        <h3 className="text-2xl font-bold text-center">Share a Post!</h3>
+        <h3 className="text-2xl font-bold text-center">
+          {EDITMODE ? "Update your Post" : "Share a Post!"}
+        </h3>
 
         <div className="flex flex-col">
           <label htmlFor="title" className="mb-1 text-sm text-gray-300">
@@ -151,7 +160,7 @@ const PostForm = () => {
         <input
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-lg w-full py-3 font-semibold text-white transition-colors"
-          value="Share Post"
+          value={EDITMODE ? "Update your Post" : "Share a Post!"}
         />
       </form>
     </div>

@@ -1,8 +1,26 @@
 import PostForm from "@/app/(components)/PostForm";
-
+const getPostById = async (id) => {
+  const res = await fetch(`http://localhost:3000/api/Posts/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get post");
+  }
+  return res.json();
+};
 const PostsPage = async ({ params }) => {
   const { id } = await params;
-  return <PostForm/>;
+  const EDITMODE = params.id === "new" ? false : true;
+  let updatePostData = {};
+  if (EDITMODE) {
+    updatePostData = await getPostById(params.id);
+    updatePostData = updatePostData.foundPost;
+  } else {
+    updatePostData = {
+      _id: "new",
+    };
+  }
+  return <PostForm post={updatePostData} />;
 };
 
 export default PostsPage;
