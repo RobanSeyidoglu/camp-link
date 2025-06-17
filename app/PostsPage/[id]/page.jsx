@@ -1,6 +1,8 @@
+import PostForm from "@/app/(components)/PostForm";
+
 const PostsPage = async ({ params }) => {
   const { id } = await params;
-  return <div>PostsPag {id}</div>;
+  return <PostForm/>;
 };
 
 export default PostsPage;
