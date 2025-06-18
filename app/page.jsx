@@ -14,7 +14,6 @@ const getPosts = async () => {
 const Dashboard = async () => {
   const { posts } = await getPosts();
 
-  // Use the correct property name here (e.g. category)
   const uniqueCategories = [...new Set(posts?.map(({ category }) => category))];
 
   return (

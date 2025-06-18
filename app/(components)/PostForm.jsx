@@ -123,10 +123,10 @@ const PostForm = ({ post }) => {
             onChange={handleChange}
             className="bg-gray-700 text-white border border-gray-600 rounded-lg px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="Government Emails">Government Emails</option>
+            <option value="Government Emails">Government Mails</option>
             <option value="Transfer">Transfer</option>
             <option value="Intigration Courses">Intigration Courses</option>
-            <option value="Normal Emails">Normal Emails</option>
+            <option value="Normal Mails">Normal Mails</option>
           </select>
         </div>
 
