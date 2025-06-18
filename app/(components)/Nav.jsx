@@ -15,7 +15,7 @@ const Nav = () => {
 
       <div>
         <p className="text-amber-100 text-sm md:text-base font-medium">
-          mohamed@gmail.com
+          admin@gmail.com
         </p>
       </div>
     </nav>

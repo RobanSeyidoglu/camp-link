@@ -8,10 +8,10 @@ const getPostById = async (id) => {
   }
   return res.json();
 };
+let updatePostData = {};
 const PostsPage = async ({ params }) => {
-  const { id } = await params;
   const EDITMODE = params.id === "new" ? false : true;
-  let updatePostData = {};
+
   if (EDITMODE) {
     updatePostData = await getPostById(params.id);
     updatePostData = updatePostData.foundPost;

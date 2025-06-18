@@ -18,3 +18,18 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
 }
+export async function PUT(req, { params }) {
+  try {
+    const { id } = params;
+    const postData = await req.json();
+    const updatePostData = await Post.findByIdAndUpdate(id, postData, {
+      new: true,
+    });
+    return NextResponse.json(
+      { message: "Post Updated", post: updatePostData },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: "Error", error }, { status: 500 });
+  }
+}

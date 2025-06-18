@@ -34,24 +34,38 @@ const PostForm = ({ post }) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/Posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ formData }),
-      });
+      let res;
+      if (EDITMODE) {
+        res = await fetch(`/api/Posts/${post._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      } else {
+        res = await fetch("/api/Posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ formData }),
+        });
+      }
+
       if (!res.ok) {
         const errorData = await res.json();
         console.error("Server error:", errorData);
-        throw new Error("Failed to create post");
+        throw new Error(
+          EDITMODE ? "Failed to update post" : "Failed to create post"
+        );
       }
 
       router.refresh();
       router.push("/");
     } catch (error) {
       console.error("Error submitting post:", error.message);
-      alert("Failed to create post");
+      alert(EDITMODE ? "Failed to update post" : "Failed to create post");
     }
   }
 
